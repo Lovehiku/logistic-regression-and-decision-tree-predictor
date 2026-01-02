@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logistic Regression Prediction</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+        .container {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 20px;
+            width: 500px;
+        }
+        h2 { color: #ff6b6b; }
+        textarea {
+            width: 100%;
+            height: 120px;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            font-size: 16px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        #result { margin-top: 15px; color: #ffeb3b; font-weight: bold; }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h2>Breast Cancer Prediction<br>(Logistic Regression)</h2>
+    <textarea id="input" placeholder="Enter 30 values separated by commas"></textarea>
+    <button onclick="predict()">Predict</button>
+    <div id="result"></div>
+</div>
+
+<script>
+async function predict() {
+    const values = document.getElementById("input").value
+        .split(",").map(v => parseFloat(v.trim()));
+
+    if(values.length !== 30 || values.some(isNaN)) {
+        alert("Enter exactly 30 valid numbers");
+        return;
+    }
+
+    try {
+        const res = await fetch("http://127.0.0.1:8000/predict", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({features: values})
+        });
+
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
+        const data = await res.json();
+        document.getElementById("result").innerText = `Prediction: ${data.prediction}`;
+    } catch(err) {
+        alert("Error: " + err.message);
+    }
+}
+</script>
+</body>
+</html>

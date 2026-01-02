@@ -7,35 +7,31 @@ import os
 
 app = FastAPI()
 
-# ✅ CORS (for Live Server)
+# Allow requests from frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://logistic-regression-and-decision-tree-9hd7.onrender.com/", "http://localhost:5500"],
+    allow_origins=["*"],  # allows any origin
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Load model safely
+# Load the model
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "logistic_model.joblib")
+MODEL_PATH = os.path.join(BASE_DIR, "decision_tree_model.joblib")
 model = joblib.load(MODEL_PATH)
 
+# Input data structure
 class Features(BaseModel):
     features: list[float]
 
 @app.get("/")
 def home():
-    return {"message": "Logistic Regression API running"}
+    return {"message": "Decision Tree API running"}
 
 @app.post("/predict")
 def predict(data: Features):
     X = np.array(data.features).reshape(1, -1)
     pred = int(model.predict(X)[0])
-
     result = "Malignant" if pred == 1 else "Benign"
-
-    return {
-        "model": "Logistic Regression",
-        "prediction": result
-    }
+    return {"model": "Decision Tree", "prediction": result}
