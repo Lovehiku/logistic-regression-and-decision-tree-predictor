@@ -37,8 +37,3 @@ def predict(data: Features):
     pred = int(model.predict(X)[0])
     result = "Malignant" if pred == 1 else "Benign"
     return {"model": "Decision Tree", "prediction": result}
-
-# Run server (Windows local & Render)
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))  # Use Render PORT or fallback 8000
-    uvicorn.run("logistic_api:app", host="0.0.0.0", port=port, reload=True)
