@@ -9,7 +9,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://decision-tree-api-xyz.onrender.com/predict", "http://localhost:5500"],
+    allow_origins=["https://logistic-regression-and-decision-tree-hwl3.onrender.com/predict", "http://localhost:5500"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
