@@ -60,7 +60,7 @@
             }
 
             try {
-                const res = await fetch("http://127.0.0.1:8000/predict", {
+                const res = await fetch("https://logistic-regression-and-decision-tree-pxr1.onrender.com/predict", {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({features: values})
