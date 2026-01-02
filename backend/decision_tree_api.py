@@ -7,13 +7,15 @@ import os
 
 app = FastAPI()
 
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://logistic-regression-and-decision-tree-hwl3.onrender.com/predict", "http://localhost:5500"],
+    allow_origins=["https://logistic-regression-and-decision-tree-hwl3.onrender.com/", "http://localhost:5500"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "decision_tree_model.joblib")
